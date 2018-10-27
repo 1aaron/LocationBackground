@@ -7,10 +7,12 @@ import android.location.Location
 import android.os.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.aaron.locationbackgroundexample.activities.MainActivity
 import com.example.aaron.locationbackgroundexample.data.Globals
 import com.google.android.gms.location.*
 import com.example.aaron.locationbackgroundexample.R
+import com.example.aaron.locationbackgroundexample.data.Globals.ACTION_BROADCAST
 
 class LocationService : Service() {
     var mLocationRequest = LocationRequest()
@@ -23,8 +25,6 @@ class LocationService : Service() {
     private var locationCallBack: LocationCallback? = null
     private var notificationManager: NotificationManager? = null
     private val CHANNEL_ID = "channel_01"
-    private val mServiceHandler: Handler? = null
-    private val EXTRA_STARTED_FROM_NOTIFICATION = "started from push"
 
     override fun onCreate() {
         Log.e(Globals.APP_NAME,"on create service")
@@ -82,9 +82,6 @@ class LocationService : Service() {
             get() = this@LocationService
     }
 
-    override fun onDestroy() {
-        mServiceHandler?.removeCallbacksAndMessages(null)
-    }
     override fun onBind(intent: Intent): IBinder {
         Log.e(Globals.APP_NAME,"onBind")
         stopForeground(true)
@@ -117,7 +114,7 @@ class LocationService : Service() {
                 Intent(this, MainActivity::class.java), 0)
 
         val builder = NotificationCompat.Builder(this)
-                .setContentText("Continuando el trabajo...")
+                .setContentText("Continuing work")
                 .setContentIntent(activityPendingIntent)
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
@@ -135,5 +132,8 @@ class LocationService : Service() {
 
     private fun onNewLocation(location: Location?) {
         Log.e(Globals.APP_NAME, "New location: " + location!!)
+        val intent = Intent(Globals.ACTION_BROADCAST)
+        intent.putExtra(ACTION_BROADCAST, "lat: ${location.latitude} lon:${location.longitude}")
+        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
     }
 }
