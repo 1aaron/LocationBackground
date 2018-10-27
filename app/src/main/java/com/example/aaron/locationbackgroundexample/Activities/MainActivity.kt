@@ -1,7 +1,8 @@
-package com.example.aaron.locationbackgroundexample
+package com.example.aaron.locationbackgroundexample.Activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.aaron.locationbackgroundexample.R
 
 class MainActivity : AppCompatActivity() {
 
