@@ -1,4 +1,4 @@
-package com.example.aaron.locationbackgroundexample.Services
+package com.example.aaron.locationbackgroundexample.services
 
 import android.app.Service
 import android.content.Intent

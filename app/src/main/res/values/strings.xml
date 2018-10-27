@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LocationBackgroundExample</string>
+    <string name="aceptaPermisos">Accept permissions</string>
 </resources>
